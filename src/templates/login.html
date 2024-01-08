@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Iniciar Sesión</title>
+  <style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+      
+      .login-container {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      
+      form {
+        display: flex;
+        flex-direction: column;
+      }
+      
+      h2 {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      
+      .input-group {
+        margin-bottom: 15px;
+      }
+      
+      label {
+        font-weight: bold;
+      }
+      
+      input {
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        width: 100%;
+      }
+      
+      button {
+        padding: 10px;
+        border: none;
+        border-radius: 3px;
+        background-color: #007bff;
+        color: #fff;
+        cursor: pointer;
+      }
+      
+      button:hover {
+        background-color: #0056b3;
+      }
+  </style>
+</head>
+<body>
+
+<div class="login-container">
+  <form id=login-form action="/comprobarLogin" method="post">
+    <h2>Iniciar Sesión</h2>
+    <div class="input-group">
+      <label for="username">Usuario</label>
+      <input type="text" id="username" name="username" required>
+    </div>
+    <div class="input-group">
+      <label for="password">Contraseña</label>
+      <input type="password" id="password" name="password" required>
+    </div>
+    <button type="submit">Ingresar</button>
+  </form>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const loginForm = document.getElementById('login-form');
+      
+        loginForm.addEventListener('submit', function(event) {
+          event.preventDefault();
+      
+          const formData = new FormData(loginForm);
+          fetch('/comprobarLogin', {
+            method: 'POST',
+            body: formData
+          })
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              // Si el inicio de sesión es exitoso, almacenar datos en sessionStorage
+              sessionStorage.setItem('usuario', data.usuario);
+              sessionStorage.setItem('permisos', data.permisos);
+              // Redirigir o realizar cualquier otra acción necesaria
+              window.location.href = '/lista'; // Redirecciona a la página 'lista'
+            } else {
+              alert('Credenciales incorrectas');
+            }
+          })
+          .catch(error => {
+            console.error('Error:', error);
+            });
+        });
+    });
+</script>
+
+
+</body>
+</html>

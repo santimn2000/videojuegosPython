@@ -1,0 +1,62 @@
+<html>
+
+<head>
+  <title>{% block title %}{% endblock %}</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <!-- <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}"> -->
+</head>
+
+<body>
+
+  <!-- Segunda barra de navegación -->
+  <nav class="navbar navbar-expand-lg bg-secondary">
+    <div class="container-fluid">
+      <div class="navbar-collapse justify-content-between">
+        <div class="navbar-nav">
+          <a class="nav-link active" aria-current="page" href="/lista">Lista de Juegos</a>
+          <a class="nav-link" href="/add">Agregar Juego</a>
+          <a class="nav-link" href="/vincular">Vincular Juego</a>
+        </div>
+        <div class="navbar-nav">
+          <span class="nav-link">Nombre de usuario actual</span>
+          <!-- Reemplaza con el nombre del usuario desde localStorage -->
+          <a class="nav-link" href="#" id="cerrarSesion">Cerrar Sesión</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  {% block content %}
+  {% endblock %}
+
+  <script>
+    // Obtener el nombre de usuario del sessionStorage
+    const nombreUsuario = sessionStorage.getItem('usuario');
+    console.log(nombreUsuario)
+
+    // Reemplazar el texto 'Nombre de usuario actual' en la barra de navegación con el nombre de usuario obtenido del sessionStorage
+    const nombreUsuarioElement = document.querySelector('body > nav > div > div > div:nth-child(2) > span');
+    if (nombreUsuario && nombreUsuarioElement) {
+      nombreUsuarioElement.textContent = nombreUsuario;
+    }
+
+
+    // Event listener para el enlace de cerrar sesión
+    const cerrarSesionLink = document.getElementById('cerrarSesion');
+    if (cerrarSesionLink) {
+        cerrarSesionLink.addEventListener('click', function(event) {
+            event.preventDefault(); // Evitar que el enlace redireccione
+
+            // Limpiar los datos del sessionStorage
+            sessionStorage.clear();
+            
+            // Redirigir a la página de inicio de sesión o a donde sea necesario
+            window.location.href = "/login"; // Reemplaza con la ruta adecuada
+        });
+    }
+  </script>
+</body>
+
+</html>

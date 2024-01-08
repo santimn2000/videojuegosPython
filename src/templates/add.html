@@ -1,0 +1,94 @@
+{% extends "maestra.html" %}
+
+{% block title %}Añadir juego{% endblock %}
+
+{% block content %}
+
+<style>
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  input[type="text"],
+  input[type="number"],
+  select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+  }
+  
+  .radio-group {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  
+  input[type="radio"] {
+    margin-right: 5px;
+  }
+</style>
+
+<form action="/addVideojuego" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+      <label for="nombre">Nombre:</label>
+      <input type="text" id="nombre" name="nombre">
+    </div>
+    
+    <div class="form-group">
+      <label for="categoria">Categoría:</label>
+      <select id="categoria" name="categoria">
+        <option value="ACCION">ACCION</option>
+        <option value="AVENTURA">AVENTURA</option>
+        <option value="ESTRATEGIA">ESTRATEGIA</option>
+        <option value="ROL">RPG</option>
+      </select>
+    </div>
+    
+    <div class="form-group">
+      <label for="desarrolladora">Desarrolladora:</label>
+      <input type="text" id="desarrolladora" name="desarrolladora">
+    </div>
+
+    <div class="form-group">
+      <label for="precio">Precio:</label>
+      <input type="number" id="precio" name="precio" step="0.01">
+    </div>
+  
+    <div class="form-group">
+      <label>Multijugador:</label>
+      <div class="radio-group">
+        <input type="radio" id="multi-si" name="multijugador" value="1">
+        <label for="multi-si">Sí</label>
+        <input type="radio" id="multi-no" name="multijugador" value="0">
+        <label for="multi-no">No</label>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="imagen">Imagen:</label>
+      <input type="file" id="imagen" name="imagen">
+    </div>
+  
+    <button type="submit">Enviar</button>
+  </form>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Verificar si hay datos en sessionStorage al cargar la página
+      const usuario = sessionStorage.getItem('usuario');
+      const permisos = sessionStorage.getItem('permisos');
+    
+      // Si no hay datos en sessionStorage, redirigir a la página de inicio de sesión
+      if (!usuario || !permisos) {
+        window.location.href = '/login';
+      }
+    });
+  </script>
+
+{% endblock %}
